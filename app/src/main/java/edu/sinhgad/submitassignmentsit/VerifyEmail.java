@@ -93,7 +93,7 @@ public class VerifyEmail extends AppCompatActivity {
                                                 databaseReference.child(firebaseAuth.getCurrentUser().getUid()).setValue(emailPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        Toast.makeText(VerifyEmail.this, "Registration successful. Please verify your email.", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(VerifyEmail.this, "Account Created. Please verify your email.", Toast.LENGTH_LONG).show();
                                                         startActivity(new Intent(getApplicationContext(), RegistrationPage.class));
                                                     }
                                                 });

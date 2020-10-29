@@ -60,7 +60,6 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 activityStarter(user);
-                finish();
             }
         }, 3000);
     }
