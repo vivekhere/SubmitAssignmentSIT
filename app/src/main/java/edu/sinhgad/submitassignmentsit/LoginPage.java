@@ -99,7 +99,7 @@ public class LoginPage extends AppCompatActivity {
                                     }
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(LoginPage.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    messagePopUp.viewMessage("Authentication failed.");
                                 }
                                 dialog.dismissDialog();
                             }

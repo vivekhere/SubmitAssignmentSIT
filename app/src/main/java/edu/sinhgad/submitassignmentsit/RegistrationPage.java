@@ -88,19 +88,15 @@ public class RegistrationPage extends AppCompatActivity {
 
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if(user.isEmailVerified()) {
-                    if(studentRadioButton.isChecked()) {
-                        databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
-                        databaseReference.child(user.getUid()).child("isTeacher").setValue("false");
-                        startActivity(new Intent(getApplicationContext(), StudentActivity.class));
-                    } else if(teacherRadioButton.isChecked()) {
-                        databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
-                        databaseReference.child(user.getUid()).child("isTeacher").setValue("true");
-                        databaseReference.child(user.getUid()).child("subject").setValue(subject);
-                        startActivity(new Intent(getApplicationContext(), TeacherActivity.class));
-                    }
-                } else {
-                    messagePopUp.viewMessage("Please verify your email.");
+                if(studentRadioButton.isChecked()) {
+                    databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
+                    databaseReference.child(user.getUid()).child("isTeacher").setValue("false");
+                    startActivity(new Intent(getApplicationContext(), LoginPage.class));
+                } else if(teacherRadioButton.isChecked()) {
+                    databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
+                    databaseReference.child(user.getUid()).child("isTeacher").setValue("true");
+                    databaseReference.child(user.getUid()).child("subject").setValue(subject);
+                    startActivity(new Intent(getApplicationContext(), LoginPage.class));
                 }
 
             }

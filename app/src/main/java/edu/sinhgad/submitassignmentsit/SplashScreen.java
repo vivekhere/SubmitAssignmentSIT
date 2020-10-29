@@ -21,6 +21,30 @@ public class SplashScreen extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
+    public void activityStarter(FirebaseUser user) {
+        if(user != null) {
+            databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try {
+                        if(snapshot.child("isTeacher").getValue().toString().equals("false")) {
+                            startActivity(new Intent(SplashScreen.this, StudentActivity.class));
+                        } else if(snapshot.child("isTeacher").getValue().toString().equals("true")) {
+                            startActivity(new Intent(SplashScreen.this, TeacherActivity.class));
+                        }
+                    } catch (Exception e) {
+                        startActivity(new Intent(SplashScreen.this, RegistrationPage.class));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        } else {
+            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,35 +55,13 @@ public class SplashScreen extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference("Users");
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        final Handler handler = new Handler();
-
+        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(user != null) {
-                    databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            try {
-                                if(snapshot.child("isTeacher").getValue().toString().equals("false")) {
-                                    startActivity(new Intent(getApplicationContext(), StudentActivity.class));
-                                } else if(snapshot.child("isTeacher").getValue().toString().equals("true")) {
-                                    startActivity(new Intent(getApplicationContext(), TeacherActivity.class));
-                                }
-                            } catch (Exception e) {
-                                startActivity(new Intent(getApplicationContext(), RegistrationPage.class));
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
-                } else {
-                    startActivity(new Intent(SplashScreen.this, MainActivity.class));
-                }
-
+                activityStarter(user);
                 finish();
             }
-        }, 2500);
+        }, 3000);
     }
 }

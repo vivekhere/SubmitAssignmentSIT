@@ -93,7 +93,7 @@ public class VerifyEmail extends AppCompatActivity {
                                                 databaseReference.child(firebaseAuth.getCurrentUser().getUid()).setValue(emailPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        messagePopUp.viewMessage("Registration successful. Please verify your email.");
+                                                        Toast.makeText(VerifyEmail.this, "Registration successful. Please verify your email.", Toast.LENGTH_LONG).show();
                                                         startActivity(new Intent(getApplicationContext(), RegistrationPage.class));
                                                     }
                                                 });
@@ -104,7 +104,7 @@ public class VerifyEmail extends AppCompatActivity {
                                     });
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(VerifyEmail.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    messagePopUp.viewMessage("Authentication failed.");
                                 }
 
                                 dialog.dismissDialog();
