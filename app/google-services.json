@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "418579015381",
+    "firebase_url": "https://submit-assignment-sit-c034d.firebaseio.com",
+    "project_id": "submit-assignment-sit-c034d",
+    "storage_bucket": "submit-assignment-sit-c034d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418579015381:android:907a96b925f7cc459ca45c",
+        "android_client_info": {
+          "package_name": "edu.sinhgad.submitassignmentsit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418579015381-qpdl6sphsn6qlbr1t91femjg3mbbv1rt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuc5daMH2szSUMzzWRa_M9_2ILy92Z_yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418579015381-qpdl6sphsn6qlbr1t91femjg3mbbv1rt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

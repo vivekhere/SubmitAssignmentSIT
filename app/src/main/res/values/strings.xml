@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Submit Assignment SIT</string>
+    <string name="hello">Hello</string>
+    <string name="choose_subject">Choose Subject</string>
+    <string name="choose_subject_teacher">Choose Subject Teacher</string>
+    <string name="submit">Submit</string>
+    <string name="assignment">Assignment</string>
+    <string name="sit">SIT</string>
+    <string name="you_are">You are :</string>
+    <string name="student">Student</string>
+    <string name="teacher">Teacher</string>
+    <string name="full_name">Full Name</string>
+    <string name="remember_me">Remember me</string>
+    <string-array name="subjectsSpinner">
+        <item>TOC</item>
+        <item>DBMS</item>
+        <item>CN</item>
+        <item>SEPM</item>
+        <item>ISEE</item>
+        <item>SDL</item>
+    </string-array>
+</resources>
