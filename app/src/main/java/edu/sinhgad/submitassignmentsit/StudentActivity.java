@@ -44,8 +44,7 @@ public class StudentActivity extends AppCompatActivity {
     Spinner studentSubjectsSpinner, teachersSpinner;
     EditText assignmentNameEditText;
     Button uploadButton, studentLogoutButton;
-    ProgressBar simpleProgressBar;
-    TextView progressTextView, userNameTextView;
+    TextView userNameTextView;
     List<UploadAssignment> uploadAssignments;
     ArrayAdapter<CharSequence> subjectsArrayAdapter;
     ArrayAdapter<String> teachersArrayAdapter;
@@ -139,7 +138,7 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
-                while(!uri.isComplete());
+                while (!uri.isComplete()) ;
                 Uri assignmentUrl = uri.getResult();
 
                 String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -149,8 +148,8 @@ public class StudentActivity extends AppCompatActivity {
                 studentActivityDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot item : snapshot.getChildren()) {
-                            if(item.child("fullName").getValue().toString().equals(teachersSpinner.getSelectedItem().toString())) {
+                        for (DataSnapshot item : snapshot.getChildren()) {
+                            if (item.child("fullName").getValue().toString().equals(teachersSpinner.getSelectedItem().toString())) {
                                 studentActivityDatabaseReference.child(item.getKey()).child("Assignments").child(studentActivityDatabaseReference.push().getKey()).setValue(uploadAssignment);
                                 break;
                             }
@@ -158,24 +157,8 @@ public class StudentActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) {}
                 });
-                Toast.makeText(StudentActivity.this, "Assignment Uploaded.", Toast.LENGTH_SHORT).show();
-                simpleProgressBar.setVisibility(View.INVISIBLE);
-                progressTextView.setVisibility(View.INVISIBLE);
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-
-                simpleProgressBar.setVisibility(View.VISIBLE);
-                progressTextView.setVisibility(View.VISIBLE);
-                double progress = (100 * snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
-                simpleProgressBar.setProgress((int) progress);
-                progressTextView.setText("Uploading -- " + (int) progress + "% --");
-
             }
         });
 
@@ -200,8 +183,6 @@ public class StudentActivity extends AppCompatActivity {
         teachersSpinner = findViewById(R.id.teachersSpinner);
         assignmentNameEditText = findViewById(R.id.assignmentNameEditText);
         uploadButton = findViewById(R.id.uploadButton);
-        simpleProgressBar = findViewById(R.id.simpleProgressBar);
-        progressTextView = findViewById(R.id.progressTextView);
         studentRecyclerView = findViewById(R.id.studentRecyclerView);
         teachersArrayList = new ArrayList<>();
         uploadAssignments = new ArrayList<>();

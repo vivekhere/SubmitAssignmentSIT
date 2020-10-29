@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +31,7 @@ public class RegistrationPage extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     MessagePopUp messagePopUp;
+    Toolbar registerToolbar;
 
     @Override
     public void onBackPressed() {
@@ -50,7 +52,13 @@ public class RegistrationPage extends AppCompatActivity {
         teacherRadioButton = findViewById(R.id.teacherRadioButton);
         subjectsSpinner = findViewById(R.id.subjectsSpinner);
         registerButton = findViewById(R.id.registerButton);
-        registrationMessageTextView = findViewById(R.id.registrationMessageTextView);
+        registrationMessageTextView = findViewById(R.id.registerMessageTextView);
+        registerToolbar = findViewById(R.id.registerToolbar);
+
+        setSupportActionBar(registerToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         arrayAdapter = ArrayAdapter.createFromResource(this, R.array.subjectsSpinner, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

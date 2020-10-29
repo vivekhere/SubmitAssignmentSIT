@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +28,7 @@ public class LoginPage extends AppCompatActivity {
 
     EditText loginEmailEditText, loginPasswordEditText;
     TextView loginMessageTextView;
+    Toolbar loginToolBar;
     Button loginButton;
     private FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
@@ -43,6 +45,12 @@ public class LoginPage extends AppCompatActivity {
         loginPasswordEditText = findViewById(R.id.loginPasswordEditText);
         loginButton = findViewById(R.id.loginButton);
         loginMessageTextView = findViewById(R.id.loginMessageTextView);
+        loginToolBar = findViewById(R.id.loginToolbar);
+
+        setSupportActionBar(loginToolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();

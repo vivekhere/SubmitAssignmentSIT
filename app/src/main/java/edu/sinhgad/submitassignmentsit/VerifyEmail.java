@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class VerifyEmail extends AppCompatActivity {
     EditText verifyEmailEditText, verifyPasswordEditText, verifyConfirmPasswordEditText;
     Button verifyEmailButton;
     TextView verifyEmailMessageTextView;
+    Toolbar verifyEmailToolbar;
 
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
@@ -43,6 +45,12 @@ public class VerifyEmail extends AppCompatActivity {
         verifyPasswordEditText = findViewById(R.id.verifyPasswordEditText);
         verifyConfirmPasswordEditText = findViewById(R.id.verifyConfirmPasswordEditText);
         verifyEmailButton = findViewById(R.id.verifyEmailButton);
+        verifyEmailToolbar = findViewById(R.id.verifyEmailToolbar);
+
+        setSupportActionBar(verifyEmailToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         dialog = new Dialog(VerifyEmail.this);
 
@@ -114,4 +122,5 @@ public class VerifyEmail extends AppCompatActivity {
             }
         });
     }
+
 }
