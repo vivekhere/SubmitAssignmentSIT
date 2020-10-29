@@ -20,17 +20,14 @@
             android:name=".VerifyEmail"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".TeacherActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".TeacherActivity" />
         <activity
-            android:name=".StudentActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".StudentActivity" />
         <activity
             android:name=".LoginPage"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".RegistrationPage"
-            android:parentActivityName=".MainActivity" />
+            android:name=".RegistrationPage" />
         <activity android:name=".MainActivity">
         </activity>
     </application>
