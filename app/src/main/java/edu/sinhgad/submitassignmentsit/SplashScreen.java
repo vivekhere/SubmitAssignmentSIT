@@ -21,8 +21,8 @@ public class SplashScreen extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    public void activityStarter(FirebaseUser user) {
-        if(user != null) {
+    public void activityStarter(final FirebaseUser user) {
+        if(user != null  && user.isEmailVerified()) {
             databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

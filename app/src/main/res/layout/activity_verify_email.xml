@@ -62,6 +62,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -75,7 +76,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="408dp"
+            android:layout_height="match_parent"
             android:background="@drawable/card_background">
 
             <EditText
@@ -84,7 +85,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:background="@drawable/custom_input"
@@ -105,7 +106,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:background="@drawable/custom_input"
@@ -126,9 +127,10 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
+                android:layout_marginBottom="55dp"
                 android:background="@drawable/custom_input"
                 android:drawableLeft="@drawable/custom_lock_icon"
                 android:drawablePadding="12dp"
@@ -137,30 +139,10 @@
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/verifyPasswordEditText" />
-
-            <Button
-                android:id="@+id/verifyEmailButton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/custom_button"
-                android:fontFamily="@font/gotham_bold"
-                android:text="Send Email"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/verifyConfirmPasswordEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/verifyPasswordEditText" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -169,7 +151,7 @@
                 android:fontFamily="@font/gotham_book"
                 android:text="Email"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/verifyEmailEditText"
                 app:layout_constraintStart_toStartOf="@+id/verifyEmailEditText" />
@@ -181,7 +163,7 @@
                 android:fontFamily="@font/gotham_book"
                 android:text="Password"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/verifyPasswordEditText"
                 app:layout_constraintStart_toStartOf="@+id/verifyPasswordEditText" />
@@ -193,12 +175,31 @@
                 android:fontFamily="@font/gotham_book"
                 android:text="Confirm Password"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/verifyConfirmPasswordEditText"
                 app:layout_constraintStart_toStartOf="@+id/verifyConfirmPasswordEditText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/verifyEmailButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/gotham_bold"
+        android:text="Send Email"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

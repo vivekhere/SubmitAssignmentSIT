@@ -9,10 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +27,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -44,7 +41,7 @@ public class StudentActivity extends AppCompatActivity {
     Spinner studentSubjectsSpinner, teachersSpinner;
     EditText assignmentNameEditText;
     Button uploadButton, studentLogoutButton;
-    TextView userNameTextView;
+    TextView userNameTextView, studentMessageTextView;
     List<UploadAssignment> uploadAssignments;
     ArrayAdapter<CharSequence> subjectsArrayAdapter;
     ArrayAdapter<String> teachersArrayAdapter;
@@ -56,6 +53,9 @@ public class StudentActivity extends AppCompatActivity {
     private StorageReference storageReference;
     UploadAssignment uploadAssignment;
     RecyclerView studentRecyclerView;
+
+    MessagePopUp messagePopUp;
+    Dialog dialog;
 
     private void viewAllAssignments() {
 
@@ -127,6 +127,7 @@ public class StudentActivity extends AppCompatActivity {
 
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uploadAssignmentFile(data.getData());
+            dialog.startLoadingDialog();
         }
 
     }
@@ -159,6 +160,7 @@ public class StudentActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
+                dialog.dismissDialog();
             }
         });
 
@@ -177,6 +179,7 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
 
+        studentMessageTextView = findViewById(R.id.studentMessageTextView);
         studentLogoutButton = findViewById(R.id.studentLogoutButton);
         userNameTextView = findViewById(R.id.userNameTextView);
         studentSubjectsSpinner = findViewById(R.id.studentSubjectsSpinner);
@@ -240,6 +243,9 @@ public class StudentActivity extends AppCompatActivity {
             }
         });
 
+        messagePopUp = new MessagePopUp(StudentActivity.this, studentMessageTextView);
+        dialog = new Dialog(StudentActivity.this);
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -247,10 +253,10 @@ public class StudentActivity extends AppCompatActivity {
                 String assignmentName = assignmentNameEditText.getText().toString().trim();
 
                 if(teachersSpinner.getSelectedItem() == null) {
-                    Toast.makeText(StudentActivity.this, "Teacher not selected.", Toast.LENGTH_SHORT).show();
+                    messagePopUp.viewMessage("Teacher not selected.");
                     return;
                 } else if(TextUtils.isEmpty(assignmentName)) {
-                    Toast.makeText(StudentActivity.this, "Assignment name cannot be empty.", Toast.LENGTH_SHORT).show();
+                    messagePopUp.viewMessage("Assignment name cannot be empty.");
                     return;
                 }
 
