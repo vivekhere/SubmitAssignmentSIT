@@ -1,13 +1,16 @@
 package edu.sinhgad.submitassignmentsit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +27,7 @@ import java.util.List;
 public class TeacherActivity extends AppCompatActivity {
 
     TextView userNameTextView;
-    Button teacherLogoutButton;
+    Toolbar teacherToolbar;
     RecyclerView teacherRecyclerView;
     List<UploadAssignment> uploadAssignments;
     FirebaseAuth firebaseAuth;
@@ -74,14 +77,45 @@ public class TeacherActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.support:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:submitsitassignment@gmail.com"));
+                startActivity(browserIntent);
+                return true;
+
+            case R.id.logout:
+                firebaseAuth.signOut();
+                startActivity(new Intent(TeacherActivity.this, MainActivity.class));
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher);
 
-        teacherLogoutButton = findViewById(R.id.teacherLogoutButton);
+        teacherToolbar = findViewById(R.id.teacherToolbar);
         userNameTextView = findViewById(R.id.userNameTextView);
         teacherRecyclerView = findViewById(R.id.teacherRecyclerView);
         uploadAssignments = new ArrayList<>();
+
+        setSupportActionBar(teacherToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -118,15 +152,6 @@ public class TeacherActivity extends AppCompatActivity {
 //            }
 //
 //        });
-
-        teacherLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                startActivity(new Intent(TeacherActivity.this, MainActivity.class));
-                finish();
-            }
-        });
 
     }
 }

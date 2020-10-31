@@ -1,13 +1,16 @@
 package edu.sinhgad.submitassignmentsit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -24,8 +27,8 @@ public class StudentActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     NavController navController;
-    Button studentLogoutButton;
     TextView userNameTextView;
+    Toolbar studentToolbar;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference studentActivityDatabaseReference;
@@ -39,6 +42,32 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.support:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:submitsitassignment@gmail.com"));
+                startActivity(browserIntent);
+                return true;
+
+            case R.id.logout:
+                firebaseAuth.signOut();
+                startActivity(new Intent(StudentActivity.this, MainActivity.class));
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
@@ -46,8 +75,13 @@ public class StudentActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        studentLogoutButton = findViewById(R.id.studentLogoutButton);
         userNameTextView = findViewById(R.id.userNameTextView);
+        studentToolbar = findViewById(R.id.studentToolbar);
+
+        setSupportActionBar(studentToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -77,13 +111,5 @@ public class StudentActivity extends AppCompatActivity {
 //
 //        });
 
-        studentLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                startActivity(new Intent(StudentActivity.this, MainActivity.class));
-                finish();
-            }
-        });
     }
 }
