@@ -8,7 +8,6 @@ class Dialog {
     private Activity activity;
     ProgressDialog dialogProgressBar;
 
-
     Dialog(Activity myActivity) {
         activity = myActivity;
     }

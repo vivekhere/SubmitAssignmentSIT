@@ -31,8 +31,11 @@ public class TeacherActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     UploadAssignment uploadAssignment;
+    Dialog dialog;
 
     private void viewAllAssignments() {
+
+        dialog.startLoadingDialog();
 
         databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("Assignments").addValueEventListener(new ValueEventListener() {
             @Override
@@ -84,6 +87,8 @@ public class TeacherActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
+        dialog = new Dialog(TeacherActivity.this);
+
         databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,6 +101,8 @@ public class TeacherActivity extends AppCompatActivity {
         });
 
         viewAllAssignments();
+
+        dialog.dismissDialog();
 
 //        recyclerAdapter.setOnItemClickListener(onItemClickListener);
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/student_nav"
+    app:startDestination="@id/submitAssignment">
+
+    <fragment
+        android:id="@+id/submitAssignment"
+        android:name="edu.sinhgad.submitassignmentsit.SubmitAssignment"
+        android:label="fragment_submit_assignment"
+        tools:layout="@layout/fragment_submit_assignment" />
+    <fragment
+        android:id="@+id/viewAssignments"
+        android:name="edu.sinhgad.submitassignmentsit.ViewAssignments"
+        android:label="fragment_view_assignments"
+        tools:layout="@layout/fragment_view_assignments" />
+</navigation>
