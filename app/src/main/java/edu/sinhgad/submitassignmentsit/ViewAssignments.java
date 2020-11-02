@@ -79,12 +79,14 @@ public class ViewAssignments extends Fragment {
                 String[] uploads = new String[uploadAssignments.size()];
                 String[] dates = new String[uploadAssignments.size()];
                 String[] times = new String[uploadAssignments.size()];
+                String[] uploaderNames = new String[uploadAssignments.size()];
                 for(int i=0; i < uploads.length; i++) {
                     uploads[i] = uploadAssignments.get(i).getAssignmentName();
                     dates[i] = uploadAssignments.get(i).getDate();
                     times[i] = uploadAssignments.get(i).getTime();
+                    uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
-                RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getActivity(), uploads, dates, times);
+                RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getActivity(), uploads, dates, times, uploaderNames);
                 studentRecyclerView.setAdapter(recyclerAdapter);
                 studentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }

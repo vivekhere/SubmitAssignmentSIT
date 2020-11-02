@@ -53,7 +53,7 @@ public class StudentActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.support:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:submitsitassignment@gmail.com"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:support@submitassignmentsit.ml"));
                 startActivity(browserIntent);
                 return true;
 

@@ -3,6 +3,7 @@ package edu.sinhgad.submitassignmentsit;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,12 +52,14 @@ public class TeacherActivity extends AppCompatActivity {
                 String[] uploads = new String[uploadAssignments.size()];
                 String[] dates = new String[uploadAssignments.size()];
                 String[] times = new String[uploadAssignments.size()];
+                String[] uploaderNames = new String[uploadAssignments.size()];
                 for(int i=0; i < uploads.length; i++) {
                     uploads[i] = uploadAssignments.get(i).getAssignmentName();
                     dates[i] = uploadAssignments.get(i).getDate();
                     times[i] = uploadAssignments.get(i).getTime();
+                    uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
-                RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getApplicationContext(), uploads, dates, times);
+                RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getApplicationContext(), uploads, dates, times, uploaderNames);
                 teacherRecyclerView.setAdapter(recyclerAdapter);
                 teacherRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             }

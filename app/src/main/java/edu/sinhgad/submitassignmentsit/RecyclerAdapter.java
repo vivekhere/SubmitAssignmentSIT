@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    String[] uploads, dates, times;
+    String[] uploads, dates, times, uploaderNames;
     Context context;
 
-    public RecyclerAdapter(Context context, String[] uploads, String[] dates, String[] times) {
+    public RecyclerAdapter(Context context, String[] uploads, String[] dates, String[] times, String[] uploaderNames) {
         this.context = context;
         this.uploads = uploads;
         this.dates = dates;
         this.times = times;
+        this.uploaderNames = uploaderNames;
     }
 
     @NonNull
@@ -34,6 +35,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.pdfNameTextView.setText(uploads[position]);
         holder.dateTextView.setText(dates[position]);
         holder.timeTextView.setText(times[position]);
+        holder.uploaderNameTextView.setText(uploaderNames[position]);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView pdfNameTextView, dateTextView, timeTextView;
+        TextView pdfNameTextView, dateTextView, timeTextView, uploaderNameTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +53,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             pdfNameTextView = itemView.findViewById(R.id.pdfNameTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
+            uploaderNameTextView = itemView.findViewById(R.id.uploaderNameTextView);
 
         }
 
