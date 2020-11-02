@@ -30,12 +30,15 @@ public class TeacherActivity extends AppCompatActivity {
     TextView userNameTextView;
     Toolbar teacherToolbar;
     RecyclerView teacherRecyclerView;
-    List<UploadAssignment> uploadAssignments;
+    RecyclerAdapter recyclerAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    ArrayList<UploadAssignment> uploadAssignments;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     UploadAssignment uploadAssignment;
     Dialog dialog;
+    String[] uploads, dates, times, uploaderNames;
 
     private void viewAllAssignments() {
 
@@ -49,19 +52,30 @@ public class TeacherActivity extends AppCompatActivity {
                     uploadAssignment = postSnapshot.getValue(UploadAssignment.class);
                     uploadAssignments.add(uploadAssignment);
                 }
-                String[] uploads = new String[uploadAssignments.size()];
-                String[] dates = new String[uploadAssignments.size()];
-                String[] times = new String[uploadAssignments.size()];
-                String[] uploaderNames = new String[uploadAssignments.size()];
+                uploads = new String[uploadAssignments.size()];
+                dates = new String[uploadAssignments.size()];
+                times = new String[uploadAssignments.size()];
+                uploaderNames = new String[uploadAssignments.size()];
                 for(int i=0; i < uploads.length; i++) {
                     uploads[i] = uploadAssignments.get(i).getAssignmentName();
                     dates[i] = uploadAssignments.get(i).getDate();
                     times[i] = uploadAssignments.get(i).getTime();
                     uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
-                RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getApplicationContext(), uploads, dates, times, uploaderNames);
+                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), uploads, dates, times, uploaderNames);
+                teacherRecyclerView.setLayoutManager(layoutManager);
                 teacherRecyclerView.setAdapter(recyclerAdapter);
-                teacherRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                recyclerAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        uploadAssignment = uploadAssignments.get(position);
+
+                        Intent intent = new Intent();
+                        intent.setDataAndType(Uri.parse(uploadAssignment.getAssignmentUrl()), "application/pdf");
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -113,6 +127,7 @@ public class TeacherActivity extends AppCompatActivity {
         teacherToolbar = findViewById(R.id.teacherToolbar);
         userNameTextView = findViewById(R.id.userNameTextView);
         teacherRecyclerView = findViewById(R.id.teacherRecyclerView);
+        layoutManager = new LinearLayoutManager(this);
         uploadAssignments = new ArrayList<>();
 
         setSupportActionBar(teacherToolbar);
@@ -140,21 +155,5 @@ public class TeacherActivity extends AppCompatActivity {
         viewAllAssignments();
 
         dialog.dismissDialog();
-
-//        recyclerAdapter.setOnItemClickListener(onItemClickListener);
-
-//        teacherRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                uploadAssignment = uploadAssignments.get(i);
-//
-//                Intent intent = new Intent();
-//                intent.setData(Uri.parse(uploadAssignment.getAssignmentUrl()));
-//                startActivity(intent);
-//            }
-//
-//        });
-
     }
 }

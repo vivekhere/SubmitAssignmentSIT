@@ -138,8 +138,6 @@ public class SubmitAssignment extends Fragment {
 
     private void uploadAssignmentFile(Uri data) {
 
-//        final String[] uploaderName = new String[1];
-
         StorageReference reference = storageReference.child("Assignments/").child(studentSubjectsSpinner.getSelectedItem().toString()).child(teachersSpinner.getSelectedItem().toString() + "/" + assignmentNameEditText.getText().toString() + ".pdf");
         reference.putFile(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -150,15 +148,6 @@ public class SubmitAssignment extends Fragment {
 
                 String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                 String currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
-//                studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        uploaderName[0] = snapshot.getValue().toString();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {}
-//                });
                 final UploadAssignment uploadAssignment = new UploadAssignment(assignmentNameEditText.getText().toString(), assignmentUrl.toString(), currentDate, currentTime, uploaderName);
                 studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("Assignments").child(studentActivityDatabaseReference.push().getKey()).setValue(uploadAssignment);
                 studentActivityDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

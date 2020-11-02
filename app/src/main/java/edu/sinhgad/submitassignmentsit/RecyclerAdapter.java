@@ -11,8 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
     String[] uploads, dates, times, uploaderNames;
     Context context;
+
+//    public RecyclerAdapter() {}
 
     public RecyclerAdapter(Context context, String[] uploads, String[] dates, String[] times, String[] uploaderNames) {
         this.context = context;
@@ -27,7 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_row, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, mListener);
     }
 
     @Override
@@ -43,17 +55,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return uploads.length;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView pdfNameTextView, dateTextView, timeTextView, uploaderNameTextView;
+        public TextView pdfNameTextView, dateTextView, timeTextView, uploaderNameTextView;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             pdfNameTextView = itemView.findViewById(R.id.pdfNameTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
             uploaderNameTextView = itemView.findViewById(R.id.uploaderNameTextView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
         }
 

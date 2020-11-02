@@ -1,15 +1,16 @@
 package edu.sinhgad.submitassignmentsit;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,11 +34,14 @@ public class ViewAssignments extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     RecyclerView studentRecyclerView;
+    RecyclerAdapter recyclerAdapter;
+    RecyclerView.LayoutManager layoutManager;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference studentActivityDatabaseReference;
-    List<UploadAssignment> uploadAssignments;
     UploadAssignment uploadAssignment;
+    ArrayList<UploadAssignment> uploadAssignments;
+    String[] uploads, dates, times, uploaderNames;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,8 +69,7 @@ public class ViewAssignments extends Fragment {
         return fragment;
     }
 
-    private void viewAllAssignments() {
-
+    public void viewAllAssignments() {
         studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("Assignments").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -76,26 +78,38 @@ public class ViewAssignments extends Fragment {
                     uploadAssignment = postSnapshot.getValue(UploadAssignment.class);
                     uploadAssignments.add(uploadAssignment);
                 }
-                String[] uploads = new String[uploadAssignments.size()];
-                String[] dates = new String[uploadAssignments.size()];
-                String[] times = new String[uploadAssignments.size()];
-                String[] uploaderNames = new String[uploadAssignments.size()];
+
+                uploads = new String[uploadAssignments.size()];
+                dates = new String[uploadAssignments.size()];
+                times = new String[uploadAssignments.size()];
+                uploaderNames = new String[uploadAssignments.size()];
                 for(int i=0; i < uploads.length; i++) {
                     uploads[i] = uploadAssignments.get(i).getAssignmentName();
                     dates[i] = uploadAssignments.get(i).getDate();
                     times[i] = uploadAssignments.get(i).getTime();
                     uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
-                RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getActivity(), uploads, dates, times, uploaderNames);
+
+                recyclerAdapter = new RecyclerAdapter(getActivity(), uploads, dates, times, uploaderNames);
+                studentRecyclerView.setLayoutManager(layoutManager);
                 studentRecyclerView.setAdapter(recyclerAdapter);
-                studentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                recyclerAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        uploadAssignment = uploadAssignments.get(position);
+
+                        Intent intent = new Intent();
+                        intent.setDataAndType(Uri.parse(uploadAssignment.getAssignmentUrl()), "application/pdf");
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
 
         });
-
     }
 
     @Override
@@ -113,12 +127,14 @@ public class ViewAssignments extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_view_assignments, container, false);
 
-        studentRecyclerView = view.findViewById(R.id.studentRecyclerView);
-        uploadAssignments = new ArrayList<>();
-
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         studentActivityDatabaseReference = firebaseDatabase.getReference("Users");
+
+        uploadAssignments = new ArrayList<>();
+        studentRecyclerView = view.findViewById(R.id.studentRecyclerView);
+        studentRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
 
         viewAllAssignments();
 

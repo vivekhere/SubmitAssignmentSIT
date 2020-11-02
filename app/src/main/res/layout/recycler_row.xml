@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="2dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -16,8 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/card_background">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/pdfNameTextView"
@@ -28,8 +27,9 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:drawableLeft="@drawable/ic_pdf"
-                android:text="PDF Name"
                 android:drawablePadding="16dp"
+                android:text="PDF Name"
+                android:textColor="@android:color/black"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

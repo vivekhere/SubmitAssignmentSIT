@@ -98,18 +98,5 @@ public class StudentActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-//        studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                uploadAssignment = uploadAssignments.get(i);
-//
-//                Intent intent = new Intent();
-//                intent.setData(Uri.parse(uploadAssignment.getAssignmentUrl()));
-//                startActivity(intent);
-//            }
-//
-//        });
-
     }
 }
