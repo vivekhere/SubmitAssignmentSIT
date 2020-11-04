@@ -64,6 +64,7 @@ public class SubmitAssignment extends Fragment {
     MessagePopUp messagePopUp;
     Dialog dialog;
     String uploaderName;
+    PushNotification pushNotification;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -166,6 +167,8 @@ public class SubmitAssignment extends Fragment {
                 });
                 dialog.dismissDialog();
                 messagePopUp.viewMessage("Assignment submitted.");
+                pushNotification = new PushNotification(getActivity(), assignmentNameEditText.getText().toString(), uploaderName);
+                pushNotification.createNotification();
             }
         });
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#5dbcd2"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@id/assignmentTextView" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/logoImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -67,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/assignmentTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/assignmentTextView"
-            app:srcCompat="@drawable/ic_logo" />
+            app:srcCompat="@drawable/ic_logo14" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -105,19 +105,8 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LayoutHeader"
-        app:srcCompat="@drawable/saspng" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
