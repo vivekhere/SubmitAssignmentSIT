@@ -167,7 +167,7 @@ public class SubmitAssignment extends Fragment {
                 });
                 dialog.dismissDialog();
                 messagePopUp.viewMessage("Assignment submitted.");
-                pushNotification = new PushNotification(getActivity(), assignmentNameEditText.getText().toString(), uploaderName);
+                pushNotification = new PushNotification(getActivity(), assignmentNameEditText.getText().toString(), "Assignment uploaded.");
                 pushNotification.createNotification();
             }
         });

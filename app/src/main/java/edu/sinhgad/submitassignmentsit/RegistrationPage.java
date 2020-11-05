@@ -10,14 +10,19 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegistrationPage extends AppCompatActivity {
 
@@ -32,6 +37,7 @@ public class RegistrationPage extends AppCompatActivity {
     DatabaseReference databaseReference;
     MessagePopUp messagePopUp;
     Toolbar registerToolbar;
+    String email;
 
     @Override
     public void onBackPressed() {
@@ -39,6 +45,11 @@ public class RegistrationPage extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    private void sendEmail() {
+        SendMail sendMail = new SendMail(this, email, registerFullNameEditText.getText().toString());
+        sendMail.execute();
     }
 
     @Override
@@ -67,6 +78,18 @@ public class RegistrationPage extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                email = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         teacherRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +131,13 @@ public class RegistrationPage extends AppCompatActivity {
                     databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
                     databaseReference.child(user.getUid()).child("isTeacher").setValue("false");
                     startActivity(new Intent(getApplicationContext(), LoginPage.class));
+                    sendEmail();
                 } else if(teacherRadioButton.isChecked()) {
                     databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
                     databaseReference.child(user.getUid()).child("isTeacher").setValue("true");
                     databaseReference.child(user.getUid()).child("subject").setValue(subject);
                     startActivity(new Intent(getApplicationContext(), LoginPage.class));
+                    sendEmail();
                 }
 
             }

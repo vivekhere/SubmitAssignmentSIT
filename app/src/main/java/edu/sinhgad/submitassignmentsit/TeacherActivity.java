@@ -3,7 +3,6 @@ package edu.sinhgad.submitassignmentsit;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TeacherActivity extends AppCompatActivity {
 
@@ -105,7 +103,7 @@ public class TeacherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.support:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:submitsitassignment@gmail.com"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:support@submitassignmentsit.xyz"));
                 startActivity(browserIntent);
                 return true;
 
