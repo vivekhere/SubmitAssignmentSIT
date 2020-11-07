@@ -69,6 +69,27 @@ public class ViewAssignments extends Fragment {
         return fragment;
     }
 
+    public void removeAssignment(final int position) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference.child("Assignments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i=0;
+               for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+//                   Log.e("dataSnapshot : ", dataSnapshot.getKey());
+                   if(i == position) {
+                       dataSnapshot.getRef().removeValue();
+                       break;
+                   }
+                   i++;
+               }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
     public void viewAllAssignments() {
         studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("Assignments").addValueEventListener(new ValueEventListener() {
             @Override
@@ -90,7 +111,7 @@ public class ViewAssignments extends Fragment {
                     uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
 
-                recyclerAdapter = new RecyclerAdapter(getActivity(), uploads, dates, times, uploaderNames);
+                recyclerAdapter = new RecyclerAdapter(getActivity(), getActivity(), uploads, dates, times, uploaderNames);
                 studentRecyclerView.setLayoutManager(layoutManager);
                 studentRecyclerView.setAdapter(recyclerAdapter);
 
@@ -140,4 +161,5 @@ public class ViewAssignments extends Fragment {
 
         return view;
     }
+
 }

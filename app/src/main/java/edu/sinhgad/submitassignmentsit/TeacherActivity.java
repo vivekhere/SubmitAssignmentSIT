@@ -60,7 +60,7 @@ public class TeacherActivity extends AppCompatActivity {
                     times[i] = uploadAssignments.get(i).getTime();
                     uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
-                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), uploads, dates, times, uploaderNames);
+                recyclerAdapter = new RecyclerAdapter(TeacherActivity.this, getApplicationContext(), uploads, dates, times, uploaderNames);
                 teacherRecyclerView.setLayoutManager(layoutManager);
                 teacherRecyclerView.setAdapter(recyclerAdapter);
 

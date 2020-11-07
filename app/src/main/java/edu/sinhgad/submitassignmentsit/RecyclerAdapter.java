@@ -1,9 +1,11 @@
 package edu.sinhgad.submitassignmentsit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +25,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     String[] uploads, dates, times, uploaderNames;
     Context context;
+    Activity activity;
 
-//    public RecyclerAdapter() {}
-
-    public RecyclerAdapter(Context context, String[] uploads, String[] dates, String[] times, String[] uploaderNames) {
+    public RecyclerAdapter(Activity activity, Context context, String[] uploads, String[] dates, String[] times, String[] uploaderNames) {
+        this.activity = activity;
         this.context = context;
         this.uploads = uploads;
         this.dates = dates;
@@ -39,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_row, parent, false);
-        return new MyViewHolder(view, mListener);
+        return new MyViewHolder(view, mListener, activity);
     }
 
     @Override
@@ -58,14 +60,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView pdfNameTextView, dateTextView, timeTextView, uploaderNameTextView;
+        public ImageView deleteImageView;
 
-        public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener, final Activity activity) {
             super(itemView);
 
             pdfNameTextView = itemView.findViewById(R.id.pdfNameTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
             uploaderNameTextView = itemView.findViewById(R.id.uploaderNameTextView);
+            deleteImageView = itemView.findViewById(R.id.deleteImageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,8 +83,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 }
             });
 
+            deleteImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            AlertRecyclerDialog alertRecyclerDialog = new AlertRecyclerDialog(activity, position);
+                            alertRecyclerDialog.showAlert();
+                        }
+                    }
+                }
+            });
+
         }
 
     }
-
 }
