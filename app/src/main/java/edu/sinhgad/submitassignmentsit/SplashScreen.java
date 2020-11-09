@@ -1,10 +1,14 @@
 package edu.sinhgad.submitassignmentsit;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +25,12 @@ public class SplashScreen extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
+    ImageView splashImageView;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void activityStarter(final FirebaseUser user) {
+        final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this, splashImageView, "sASLogoTrans");
+
         if(user != null  && user.isEmailVerified()) {
             databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -41,7 +50,7 @@ public class SplashScreen extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
         } else {
-            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+            startActivity(new Intent(SplashScreen.this, MainActivity.class), options.toBundle());
         }
     }
 
@@ -50,6 +59,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        splashImageView = findViewById(R.id.splashImageView);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
@@ -57,6 +67,7 @@ public class SplashScreen extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
                 activityStarter(user);

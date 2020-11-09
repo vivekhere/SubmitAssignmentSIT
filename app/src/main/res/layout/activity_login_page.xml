@@ -147,6 +147,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/loginPasswordEditText"
                 app:layout_constraintStart_toStartOf="@+id/loginPasswordEditText" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

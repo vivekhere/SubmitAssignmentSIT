@@ -22,5 +22,4 @@ class Dialog {
     void dismissDialog() {
         dialogProgressBar.dismiss();
     }
-
 }
