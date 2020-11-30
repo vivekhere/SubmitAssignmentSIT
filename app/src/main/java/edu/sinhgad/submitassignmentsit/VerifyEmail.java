@@ -102,7 +102,7 @@ public class VerifyEmail extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         Toast.makeText(VerifyEmail.this, "Account Created. Please verify your email.", Toast.LENGTH_LONG).show();
-                                                        startActivity(new Intent(getApplicationContext(), RegistrationPage.class));
+                                                        startActivity(new Intent(getApplicationContext(), ProfilePicture.class));
                                                     }
                                                 });
                                             } else {

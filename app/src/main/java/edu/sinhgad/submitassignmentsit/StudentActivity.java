@@ -1,11 +1,14 @@
 package edu.sinhgad.submitassignmentsit;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class StudentActivity extends AppCompatActivity {
 
@@ -32,6 +36,7 @@ public class StudentActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference studentActivityDatabaseReference;
+    ImageView studentProfilePicture;
 
     @Override
     public void onBackPressed() {
@@ -75,8 +80,10 @@ public class StudentActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
         userNameTextView = findViewById(R.id.userNameTextView);
         studentToolbar = findViewById(R.id.studentToolbar);
+        studentProfilePicture = findViewById(R.id.studentProfilePicture);
 
         setSupportActionBar(studentToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -87,11 +94,15 @@ public class StudentActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         studentActivityDatabaseReference = firebaseDatabase.getReference("Users");
 
-        studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+        studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.getValue().toString();
+                String name = snapshot.child("fullName").getValue().toString();
                 userNameTextView.setText(name);
+                try {
+                    String imageUri = snapshot.child("profilePictureUrl").getValue().toString();
+                    Picasso.with(StudentActivity.this).load(imageUri).into(studentProfilePicture);
+                } catch (Exception ignored) {}
             }
 
             @Override
