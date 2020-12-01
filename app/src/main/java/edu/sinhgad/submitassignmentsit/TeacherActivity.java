@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class TeacherActivity extends AppCompatActivity {
 
     TextView userNameTextView;
+    ImageView teacherProfilePicture;
     Toolbar teacherToolbar;
     RecyclerView teacherRecyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -123,6 +127,7 @@ public class TeacherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teacher);
 
         teacherToolbar = findViewById(R.id.teacherToolbar);
+        teacherProfilePicture = findViewById(R.id.teacherProfilePicture);
         userNameTextView = findViewById(R.id.userNameTextView);
         teacherRecyclerView = findViewById(R.id.teacherRecyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -137,13 +142,15 @@ public class TeacherActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
-        dialog = new Dialog(TeacherActivity.this);
-
-        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.getValue().toString();
+                String name = snapshot.child("fullName").getValue().toString();
                 userNameTextView.setText(name);
+                try {
+                    String imageUri = snapshot.child("profilePictureUrl").getValue().toString();
+                    Picasso.with(TeacherActivity.this).load(imageUri).into(teacherProfilePicture);
+                } catch (Exception ignored) {}
             }
 
             @Override
@@ -152,6 +159,11 @@ public class TeacherActivity extends AppCompatActivity {
 
         viewAllAssignments();
 
-        dialog.dismissDialog();
+        teacherProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TeacherActivity.this, ProfilePage.class));
+            }
+        });
     }
 }

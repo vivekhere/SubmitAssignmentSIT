@@ -33,7 +33,7 @@
                 app:titleTextColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/registerPageTextView"
+                android:id="@+id/profilePictureTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile Picture"
@@ -55,13 +55,13 @@
         android:layout_height="150dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/defualtdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
         android:id="@+id/profileNextButton"
@@ -77,5 +77,20 @@
         app:layout_constraintEnd_toEndOf="@+id/profilePictureImageView"
         app:layout_constraintStart_toStartOf="@+id/profilePictureImageView"
         app:layout_constraintTop_toBottomOf="@+id/profilePictureImageView" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/gotham_bold"
+        android:textSize="20sp"
+        android:text="Click the Image below to set the profile picture"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,37 +32,38 @@
                 android:background="@android:color/transparent"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:titleTextColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/helloTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/teacherProfilePicture"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="@string/hello"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/defualtdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/userNameTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:hint="Vivek Jaiswal"
                 android:textColor="@android:color/white"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/helloTextView"
-                app:layout_constraintStart_toEndOf="@id/helloTextView"
-                app:layout_constraintTop_toTopOf="@id/helloTextView" />
+                app:layout_constraintBottom_toBottomOf="@+id/teacherProfilePicture"
+                app:layout_constraintStart_toEndOf="@+id/teacherProfilePicture"
+                app:layout_constraintTop_toTopOf="@+id/teacherProfilePicture" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
