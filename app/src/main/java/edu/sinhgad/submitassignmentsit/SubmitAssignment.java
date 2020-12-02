@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.APIService;
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.Client;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -64,7 +67,6 @@ public class SubmitAssignment extends Fragment {
     MessagePopUp messagePopUp;
     Dialog dialog;
     String uploaderName;
-    PushNotification pushNotification;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -155,8 +157,13 @@ public class SubmitAssignment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot item : snapshot.getChildren()) {
-                            if (item.child("fullName").getValue().toString().equals(teachersSpinner.getSelectedItem().toString())) {
+                            String fullName = item.child("fullName").getValue().toString();
+                            String subject = item.child("subject").getValue().toString();
+                            if (fullName.equals(teachersSpinner.getSelectedItem().toString()) && subject.equals(studentSubjectsSpinner.getSelectedItem().toString())) {
                                 studentActivityDatabaseReference.child(item.getKey()).child("Assignments").child(studentActivityDatabaseReference.push().getKey()).setValue(uploadAssignment);
+                                PushNotification pushNotification = new PushNotification(getActivity());
+                                String token = item.child("token").child("token").getValue().toString();
+                                pushNotification.sendNotification(token, assignmentNameEditText.getText().toString().trim(), fullName + " sent an assignment.");
                                 break;
                             }
                         }
@@ -167,8 +174,6 @@ public class SubmitAssignment extends Fragment {
                 });
                 dialog.dismissDialog();
                 messagePopUp.viewMessage("Assignment submitted.");
-                pushNotification = new PushNotification(getActivity(), assignmentNameEditText.getText().toString(), "Assignment uploaded.");
-                pushNotification.createNotification();
             }
         });
 

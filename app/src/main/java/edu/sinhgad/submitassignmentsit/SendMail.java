@@ -31,8 +31,8 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        String message = "Hi " + userName + ". \n\nI hope you are having a good day.\n\nThis is Vivek Jaiswal from Submit Assignment SIT." +
-                "\nJust wanted to let you know that if you encounter any error please report the error using the Support option provided within the app" +
+        String message = "Hi " + userName + ". \n\nI hope you are having a good day." +
+                "\n\nAs our app is still in developing phase, you may encounter some errors. If you do encounter an error please report it using the Support option provided within the app" +
                 " or write an email to support@submitassignmentsit.xyz. Our team will try to resolve the issue as soon as possible." +
                 " By reporting the error you will not only get your issue resolved but also help us to make our app run smoothly and error free." +
                 "\n\nKind Regards, \nVivek Jaiswal \nSubmit Assignment SIT";

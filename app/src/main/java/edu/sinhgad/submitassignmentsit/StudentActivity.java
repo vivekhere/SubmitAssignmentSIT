@@ -26,7 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
+
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.Token;
 
 public class StudentActivity extends AppCompatActivity {
 
@@ -73,6 +76,12 @@ public class StudentActivity extends AppCompatActivity {
 
     }
 
+    private void updateToken() {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Token token = new Token(refreshedToken);
+        studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("token").setValue(token);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,5 +126,6 @@ public class StudentActivity extends AppCompatActivity {
             }
         });
 
+        updateToken();
     }
 }

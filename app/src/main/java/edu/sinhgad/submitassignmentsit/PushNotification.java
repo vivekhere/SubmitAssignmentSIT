@@ -1,46 +1,43 @@
 package edu.sinhgad.submitassignmentsit;
 
-import android.app.Activity;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import android.app.Activity;
+import android.widget.Toast;
+
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.APIService;
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.Client;
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.Data;
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.MyResponse;
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.NotificationSender;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PushNotification {
 
-    NotificationChannel notificationChannel;
-    NotificationManager notificationManager;
-    NotificationCompat.Builder builder;
-    NotificationManagerCompat notificationManagerCompat;
     Activity activity;
-    String assignmentName;
-    String studentName;
 
-    public PushNotification(Activity activity, String assignmentName, String studentName) {
+    PushNotification(Activity activity) {
         this.activity = activity;
-        this.assignmentName = assignmentName;
-        this.studentName = studentName;
     }
 
-    public void createNotification(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            notificationChannel = new NotificationChannel("MyNOTIFICATIONS", "MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
+    public void sendNotification(String userToken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender notificationSender =  new NotificationSender(data, userToken);
+        APIService apiService = Client.getClient("https://fcm.googleapis.com").create(APIService.class);
+        apiService.sendNotification(notificationSender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if(response.code() == 200) {
+                    if(response.body().success != 1) {
+                        Toast.makeText(activity, "Notification not sent.", Toast.LENGTH_LONG);
+                    }
+                }
+            }
 
-            notificationManager = activity.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-
-        }
-
-        builder = new NotificationCompat.Builder(activity,"MyNOTIFICATIONS")
-                .setSmallIcon(R.drawable.ic_logo14)
-                .setContentTitle(assignmentName)
-                .setAutoCancel(true)
-                .setContentText(studentName);
-
-        notificationManagerCompat = NotificationManagerCompat.from(activity);
-        notificationManagerCompat.notify(999,builder.build());
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {}
+        });
     }
 
 }

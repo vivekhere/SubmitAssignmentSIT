@@ -22,9 +22,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import edu.sinhgad.submitassignmentsit.SendNotificationPack.Token;
 
 public class TeacherActivity extends AppCompatActivity {
 
@@ -39,12 +42,9 @@ public class TeacherActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     UploadAssignment uploadAssignment;
-    Dialog dialog;
     String[] uploads, dates, times, uploaderNames;
 
     private void viewAllAssignments() {
-
-        dialog.startLoadingDialog();
 
         databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("Assignments").addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,6 +121,12 @@ public class TeacherActivity extends AppCompatActivity {
 
     }
 
+    private void updateToken() {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Token token = new Token(refreshedToken);
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("token").setValue(token);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,5 +171,7 @@ public class TeacherActivity extends AppCompatActivity {
                 startActivity(new Intent(TeacherActivity.this, ProfilePage.class));
             }
         });
+
+        updateToken();
     }
 }
