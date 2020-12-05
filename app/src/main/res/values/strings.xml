@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Submit Assignment SIT</string>
+    <string name="app_name">SAS</string>
     <string name="hello">Hello</string>
     <string name="choose_subject">Choose Subject</string>
     <string name="choose_subject_teacher">Choose Subject Teacher</string>

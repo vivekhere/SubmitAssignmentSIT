@@ -24,7 +24,6 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
     ImageView splashImageView;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

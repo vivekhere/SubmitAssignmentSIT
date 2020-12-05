@@ -1,9 +1,11 @@
 package edu.sinhgad.submitassignmentsit;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -104,7 +107,7 @@ public class StudentActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         studentActivityDatabaseReference = firebaseDatabase.getReference("Users");
 
-        studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        studentActivityDatabaseReference.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("fullName").getValue().toString();
@@ -120,9 +123,11 @@ public class StudentActivity extends AppCompatActivity {
         });
 
         studentProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StudentActivity.this, ProfilePage.class));
+                final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(StudentActivity.this, studentProfilePicture, "profileLogoTransition");
+                startActivity(new Intent(StudentActivity.this, ProfilePage.class), options.toBundle());
             }
         });
 

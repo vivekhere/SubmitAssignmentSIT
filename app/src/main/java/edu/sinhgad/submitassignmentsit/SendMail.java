@@ -1,6 +1,5 @@
 package edu.sinhgad.submitassignmentsit;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.Properties;
@@ -15,27 +14,26 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMail extends AsyncTask<Void, Void, Void> {
 
-    public static final  String EMAIL = "vivek@submitassignmentsit.xyz";
-    public static final String PASSWORD = "qKavPQF8XjDT";
-
-    private Context context;
-
     private Session session;
-    private String email, userName;
+    private String toEmail, userName, message, fromEmail, password, subject, setFrom;
 
-    public SendMail(Context context, String email, String userName) {
-        this.context = context;
-        this.email = email;
+    public SendMail(String toEmail, String userName, String message, String fromEmail, String password, String subject) {
+        this.toEmail = toEmail;
         this.userName = userName;
+        this.message = message;
+        this.fromEmail = fromEmail;
+        this.password = password;
+        this.subject = subject;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        String message = "Hi " + userName + ". \n\nI hope you are having a good day." +
-                "\n\nAs our app is still in developing phase, you may encounter some errors. If you do encounter an error please report it using the Support option provided within the app" +
-                " or write an email to support@submitassignmentsit.xyz. Our team will try to resolve the issue as soon as possible." +
-                " By reporting the error you will not only get your issue resolved but also help us to make our app run smoothly and error free." +
-                "\n\nKind Regards, \nVivek Jaiswal \nSubmit Assignment SIT";
+        String completeMessage = "Hi " + userName + "," + message;
+        if(fromEmail.equals("vivek@submitassignmentsit.xyz")) {
+            setFrom = "Vivek Jaiswal <vivek@submitassignmentsit.xyz>";
+        } else if(fromEmail.equals("support@submitassignmentsit.xyz")) {
+            setFrom = "SAS support <support@submitassignmentsit.xyz>";
+        }
 
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.zoho.in");
@@ -45,20 +43,18 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
 
         session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(EMAIL, PASSWORD);
+                return new PasswordAuthentication(fromEmail, password);
             }
         });
 
         MimeMessage mimeMessage = new MimeMessage(session);
         try {
-            mimeMessage.setFrom(new InternetAddress("Vivek Jaiswal <vivek@submitassignmentsit.xyz>"));
-            mimeMessage.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(email)));
-            mimeMessage.setSubject("Welcome to Submit Assignment SIT.");
-            mimeMessage.setText(message);
+            mimeMessage.setFrom(new InternetAddress(setFrom));
+            mimeMessage.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(toEmail)));
+            mimeMessage.setSubject(subject);
+            mimeMessage.setText(completeMessage);
             Transport.send(mimeMessage);
-        } catch (MessagingException e) {
-//            e.printStackTrace();
-        }
+        } catch (MessagingException ignored) {}
 
         return null;
 

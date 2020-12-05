@@ -98,7 +98,7 @@ public class VerifyEmail extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()) {
                                                 EmailPassword emailPassword = new EmailPassword(email, password);
-                                                databaseReference.child(firebaseAuth.getCurrentUser().getUid()).setValue(emailPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("email").setValue(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         Toast.makeText(VerifyEmail.this, "Account Created. Please verify your email.", Toast.LENGTH_LONG).show();

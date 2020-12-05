@@ -17,6 +17,7 @@ class Dialog {
         dialogProgressBar.show();
         dialogProgressBar.setContentView(R.layout.custom_login_dialog);
         dialogProgressBar.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogProgressBar.setCancelable(false);
     }
 
     void dismissDialog() {

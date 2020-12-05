@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,14 +30,15 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginPage extends AppCompatActivity {
 
     EditText loginEmailEditText, loginPasswordEditText;
-    TextView loginMessageTextView;
+    TextView loginMessageTextView, forgotPasswordTextView, upperTextView, lowerTextView;
     Toolbar loginToolBar;
-    Button loginButton;
+    Button loginButton, sendEmailButton;
     private FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference loginPageDatabaseReference;
     Dialog dialog;
     MessagePopUp messagePopUp;
+    String email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,12 @@ public class LoginPage extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         loginMessageTextView = findViewById(R.id.loginMessageTextView);
         loginToolBar = findViewById(R.id.loginToolbar);
+        forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView);
+        upperTextView = findViewById(R.id.upperTextView);
+        lowerTextView = findViewById(R.id.lowerTextView);
+        sendEmailButton = findViewById(R.id.changePasswordButton);
+
+        sendEmailButton.setX(2000);
 
         setSupportActionBar(loginToolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -65,8 +73,8 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String email = loginEmailEditText.getText().toString().trim();
-                String password = loginPasswordEditText.getText().toString().trim();
+                email = loginEmailEditText.getText().toString().trim();
+                password = loginPasswordEditText.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)) {
                     messagePopUp.viewMessage("Email field cannot be empty.");
@@ -116,6 +124,36 @@ public class LoginPage extends AppCompatActivity {
                             }
                         });
 
+            }
+        });
+
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lowerTextView.setText(null);
+                loginPasswordEditText.animate().translationXBy(-2000).setDuration(1000);
+                forgotPasswordTextView.animate().translationXBy(-2000).setDuration(1000);
+                loginButton.animate().translationXBy(-2000).setDuration(1000);
+                sendEmailButton.animate().translationXBy(-2000).setDuration(1000);
+
+            }
+        });
+
+        sendEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = loginEmailEditText.getText().toString().trim();
+                if(TextUtils.isEmpty(email)) {
+                    messagePopUp.viewMessage("Email field cannot be empty.");
+                    return;
+                }
+                ChangePassword changePassword = new ChangePassword(LoginPage.this);
+                changePassword.sendPasswordResetEmail(email);
+                lowerTextView.setText("Password");
+                loginPasswordEditText.animate().translationXBy(2000).setDuration(1000);
+                forgotPasswordTextView.animate().translationXBy(2000).setDuration(1000);
+                loginButton.animate().translationXBy(2000).setDuration(1000);
+                sendEmailButton.animate().translationXBy(2000).setDuration(1000);
             }
         });
     }

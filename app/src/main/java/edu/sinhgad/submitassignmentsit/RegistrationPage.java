@@ -37,7 +37,7 @@ public class RegistrationPage extends AppCompatActivity {
     DatabaseReference databaseReference;
     MessagePopUp messagePopUp;
     Toolbar registerToolbar;
-    String email;
+    String toEmail;
 
     @Override
     public void onBackPressed() {
@@ -48,7 +48,7 @@ public class RegistrationPage extends AppCompatActivity {
     }
 
     private void sendEmail() {
-        SendMail sendMail = new SendMail(this, email, registerFullNameEditText.getText().toString());
+        SendMail sendMail = new SendMail(toEmail, registerFullNameEditText.getText().toString(), Constants.WELCOME_MESSAGE, Constants.MAIN_EMAIL, Constants.MAIN_PASSWORD, Constants.WELCOME_SUBJECT);
         sendMail.execute();
     }
 
@@ -82,7 +82,7 @@ public class RegistrationPage extends AppCompatActivity {
         databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                email = snapshot.getValue(String.class);
+                toEmail = snapshot.getValue(String.class);
             }
 
             @Override

@@ -1,8 +1,10 @@
 package edu.sinhgad.submitassignmentsit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,16 +25,16 @@ import com.squareup.picasso.Picasso;
 
 public class ProfilePage extends AppCompatActivity {
 
-    String password;
-    String fullName;
+    String password, fullName, email;
     boolean isEdit = true;
     ImageView profileImageView;
-    EditText profileNameEditText, profileCurrentPasswordEditText, profileNewPasswordEditText;
+    EditText profileNameEditText;
     TextView profileNameTextView, profileEmailTextView;
-    Button editButton;
+    Button editButton, changePasswordButton;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    ChangeProfilePicture changeProfilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,7 @@ public class ProfilePage extends AppCompatActivity {
         profileNameEditText = findViewById(R.id.profileNameEditText);
         profileNameTextView = findViewById(R.id.profileNameTextView);
         profileEmailTextView = findViewById(R.id.profileEmailTextView);
-        profileCurrentPasswordEditText = findViewById(R.id.profileCurrentPasswordEditText);
-        profileNewPasswordEditText = findViewById(R.id.profileNewPasswordEditText);
+        changePasswordButton = findViewById(R.id.changePasswordButton);
         editButton = findViewById(R.id.editButton);
         editButton.setText("Edit");
 
@@ -51,11 +53,13 @@ public class ProfilePage extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
-        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        changeProfilePicture = new ChangeProfilePicture(ProfilePage.this, profileImageView);
+
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 fullName = snapshot.child("fullName").getValue().toString();
-                String email = snapshot.child("email").getValue().toString();
+                email = snapshot.child("email").getValue().toString();
                 password = snapshot.child("password").getValue().toString();
                 profileNameEditText.setText(fullName);
                 profileNameTextView.setText(fullName);
@@ -80,36 +84,44 @@ public class ProfilePage extends AppCompatActivity {
                 }
             }
         });
+
+        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChangePassword changePassword = new ChangePassword(ProfilePage.this);
+                changePassword.sendPasswordResetEmail(email);
+                Snackbar.make(findViewById(android.R.id.content), "Password Reset Email sent.", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeProfilePicture.choosePicture();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        changeProfilePicture.activityResult(requestCode, resultCode, data);
     }
 
     private void makeChanges() {
         editButton.setText("Save");
         profileNameEditText.setEnabled(true);
-        profileCurrentPasswordEditText.setEnabled(true);
-        profileNewPasswordEditText.setEnabled(true);
         isEdit = false;
     }
 
     private void saveChanges() {
-        String currentPassword = profileCurrentPasswordEditText.getText().toString().trim();
         String name = profileNameEditText.getText().toString().trim();
-        String newPassword = profileNewPasswordEditText.getText().toString().trim();
-        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(currentPassword) || TextUtils.isEmpty(newPassword)) {
+        if(TextUtils.isEmpty(name)) {
             Toast.makeText(ProfilePage.this, "Empty Field.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(password.equals(currentPassword)) {
-            databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("fullName").setValue(name);
-            databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("password").setValue(newPassword);
-        } else {
-            Toast.makeText(ProfilePage.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-            profileNameEditText.setText(fullName);
-        }
-        profileCurrentPasswordEditText.setText(null);
-        profileNewPasswordEditText.setText(null);
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("fullName").setValue(name);
         profileNameEditText.setEnabled(false);
-        profileCurrentPasswordEditText.setEnabled(false);
-        profileNewPasswordEditText.setEnabled(false);
         editButton.setText("Edit");
         isEdit = true;
     }
