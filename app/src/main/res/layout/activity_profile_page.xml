@@ -93,13 +93,13 @@
         android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/gotham_bold"
         android:hint="Edit"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/profileNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/profileNameEditText" />
 
@@ -117,16 +117,30 @@
         android:id="@+id/changePasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/gotham_bold"
+        android:padding="5dp"
         android:text="Change Password"
-        android:padding="15dp"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/editButton"
+        app:layout_constraintTop_toBottomOf="@+id/editButton" />
+
+    <Button
+        android:id="@+id/removeProfilePicButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_button"
+        android:text="Remove Profile Picture"
+        android:padding="5dp"
+        android:fontFamily="@font/gotham_bold"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/editButton"
-        app:layout_constraintTop_toTopOf="@+id/editButton" />
+        app:layout_constraintStart_toStartOf="@+id/changePasswordButton"
+        app:layout_constraintTop_toBottomOf="@+id/changePasswordButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,5 @@
 package edu.sinhgad.submitassignmentsit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +29,7 @@ public class ProfilePage extends AppCompatActivity {
     ImageView profileImageView;
     EditText profileNameEditText;
     TextView profileNameTextView, profileEmailTextView;
-    Button editButton, changePasswordButton;
+    Button editButton, changePasswordButton, removeProfilePicButton;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -46,6 +45,7 @@ public class ProfilePage extends AppCompatActivity {
         profileNameTextView = findViewById(R.id.profileNameTextView);
         profileEmailTextView = findViewById(R.id.profileEmailTextView);
         changePasswordButton = findViewById(R.id.changePasswordButton);
+        removeProfilePicButton = findViewById(R.id.removeProfilePicButton);
         editButton = findViewById(R.id.editButton);
         editButton.setText("Edit");
 
@@ -97,6 +97,13 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeProfilePicture.choosePicture();
+            }
+        });
+
+        removeProfilePicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("profilePictureUrl").removeValue();
             }
         });
     }
