@@ -158,8 +158,7 @@ public class SubmitAssignment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot item : snapshot.getChildren()) {
                             String fullName = item.child("fullName").getValue().toString();
-                            String subject = item.child("subject").getValue().toString();
-                            if (fullName.equals(teachersSpinner.getSelectedItem().toString()) && subject.equals(studentSubjectsSpinner.getSelectedItem().toString())) {
+                            if (fullName.equals(teachersSpinner.getSelectedItem().toString())) {
                                 studentActivityDatabaseReference.child(item.getKey()).child("Assignments").child(studentActivityDatabaseReference.push().getKey()).setValue(uploadAssignment);
                                 PushNotification pushNotification = new PushNotification(getActivity());
                                 String token = item.child("token").child("token").getValue().toString();

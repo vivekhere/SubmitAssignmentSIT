@@ -55,7 +55,7 @@ public class ProfilePage extends AppCompatActivity {
 
         changeProfilePicture = new ChangeProfilePicture(ProfilePage.this, profileImageView);
 
-        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 fullName = snapshot.child("fullName").getValue().toString();
@@ -90,7 +90,6 @@ public class ProfilePage extends AppCompatActivity {
             public void onClick(View view) {
                 ChangePassword changePassword = new ChangePassword(ProfilePage.this);
                 changePassword.sendPasswordResetEmail(email);
-                Snackbar.make(findViewById(android.R.id.content), "Password Reset Email sent.", Snackbar.LENGTH_LONG).show();
             }
         });
 

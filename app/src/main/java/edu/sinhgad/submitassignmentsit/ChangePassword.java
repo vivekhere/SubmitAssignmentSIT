@@ -6,14 +6,12 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ChangePassword {
 
     Activity activity;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
     public ChangePassword(Activity activity) {
         this.activity = activity;
@@ -25,7 +23,9 @@ public class ChangePassword {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-
+                            Snackbar.make(activity.findViewById(android.R.id.content), "Email sent.", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(activity.findViewById(android.R.id.content), "Email not sent.", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });

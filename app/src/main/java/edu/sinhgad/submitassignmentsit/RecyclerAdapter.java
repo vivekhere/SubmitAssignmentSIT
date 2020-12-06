@@ -26,14 +26,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     String[] uploads, dates, times, uploaderNames;
     Context context;
     Activity activity;
+    boolean isStudent;
 
-    public RecyclerAdapter(Activity activity, Context context, String[] uploads, String[] dates, String[] times, String[] uploaderNames) {
+    public RecyclerAdapter(Activity activity, Context context, String[] uploads, String[] dates, String[] times, String[] uploaderNames, boolean isStudent) {
         this.activity = activity;
         this.context = context;
         this.uploads = uploads;
         this.dates = dates;
         this.times = times;
         this.uploaderNames = uploaderNames;
+        this.isStudent = isStudent;
     }
 
     @NonNull
@@ -41,7 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_row, parent, false);
-        return new MyViewHolder(view, mListener, activity);
+        return new MyViewHolder(view, mListener, activity, isStudent);
     }
 
     @Override
@@ -59,17 +61,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView pdfNameTextView, dateTextView, timeTextView, uploaderNameTextView;
-        public ImageView deleteImageView;
+        public TextView pdfNameTextView, dateTextView, timeTextView, uploaderNameTextView, deleteTextView;
 
-        public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener, final Activity activity) {
+        public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener, final Activity activity, final boolean isStudent) {
             super(itemView);
 
             pdfNameTextView = itemView.findViewById(R.id.pdfNameTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             timeTextView = itemView.findViewById(R.id.timeTextView);
             uploaderNameTextView = itemView.findViewById(R.id.uploaderNameTextView);
-            deleteImageView = itemView.findViewById(R.id.deleteImageView);
+            deleteTextView = itemView.findViewById(R.id.deleteTextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,13 +84,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 }
             });
 
-            deleteImageView.setOnClickListener(new View.OnClickListener() {
+            deleteTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(listener != null) {
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
-                            AlertRecyclerDialog alertRecyclerDialog = new AlertRecyclerDialog(activity, position);
+                            AlertRecyclerDialog alertRecyclerDialog = new AlertRecyclerDialog(activity, position, isStudent);
                             alertRecyclerDialog.showAlert();
                         }
                     }

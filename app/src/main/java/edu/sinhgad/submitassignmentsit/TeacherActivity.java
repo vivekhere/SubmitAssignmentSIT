@@ -1,9 +1,7 @@
 package edu.sinhgad.submitassignmentsit;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,7 +64,7 @@ public class TeacherActivity extends AppCompatActivity {
                     times[i] = uploadAssignments.get(i).getTime();
                     uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
-                recyclerAdapter = new RecyclerAdapter(TeacherActivity.this, getApplicationContext(), uploads, dates, times, uploaderNames);
+                recyclerAdapter = new RecyclerAdapter(TeacherActivity.this, getApplicationContext(), uploads, dates, times, uploaderNames, false);
                 teacherRecyclerView.setLayoutManager(layoutManager);
                 teacherRecyclerView.setAdapter(recyclerAdapter);
 
@@ -130,6 +127,26 @@ public class TeacherActivity extends AppCompatActivity {
         databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("token").setValue(token);
     }
 
+    public void removeAssignment(final int position) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference.child("Assignments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i=0;
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    if(i == position) {
+                        dataSnapshot.getRef().removeValue();
+                        break;
+                    }
+                    i++;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +168,7 @@ public class TeacherActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
-        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(firebaseAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("fullName").getValue().toString();
@@ -169,11 +186,9 @@ public class TeacherActivity extends AppCompatActivity {
         viewAllAssignments();
 
         teacherProfilePicture.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TeacherActivity.this, teacherProfilePicture, "profileLogoTrans");
-                startActivity(new Intent(TeacherActivity.this, ProfilePage.class), options.toBundle());
+                startActivity(new Intent(TeacherActivity.this, ProfilePage.class));
             }
         });
 

@@ -103,13 +103,14 @@
             <EditText
                 android:id="@+id/assignmentNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="55dp"
+                android:background="@drawable/custom_input"
                 android:drawableLeft="@drawable/custom_assignment_icon"
                 android:drawablePadding="12dp"
                 android:hint="Enter Assignment Name"
@@ -125,7 +126,7 @@
 
     <Button
         android:id="@+id/uploadButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"

@@ -130,6 +130,7 @@ public class LoginPage extends AppCompatActivity {
         forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                messagePopUp.viewMessage("An email will be sent to your account.");
                 lowerTextView.setText(null);
                 loginPasswordEditText.animate().translationXBy(-2000).setDuration(1000);
                 forgotPasswordTextView.animate().translationXBy(-2000).setDuration(1000);

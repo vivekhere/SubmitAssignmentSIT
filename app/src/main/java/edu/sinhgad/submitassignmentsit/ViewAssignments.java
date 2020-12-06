@@ -76,7 +76,6 @@ public class ViewAssignments extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i=0;
                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
-//                   Log.e("dataSnapshot : ", dataSnapshot.getKey());
                    if(i == position) {
                        dataSnapshot.getRef().removeValue();
                        break;
@@ -111,7 +110,7 @@ public class ViewAssignments extends Fragment {
                     uploaderNames[i] = uploadAssignments.get(i).getUploaderName();
                 }
 
-                recyclerAdapter = new RecyclerAdapter(getActivity(), getActivity(), uploads, dates, times, uploaderNames);
+                recyclerAdapter = new RecyclerAdapter(getActivity(), getActivity(), uploads, dates, times, uploaderNames, true);
                 studentRecyclerView.setLayoutManager(layoutManager);
                 studentRecyclerView.setAdapter(recyclerAdapter);
 
@@ -119,7 +118,6 @@ public class ViewAssignments extends Fragment {
                     @Override
                     public void onItemClick(int position) {
                         uploadAssignment = uploadAssignments.get(position);
-
                         Intent intent = new Intent();
                         intent.setDataAndType(Uri.parse(uploadAssignment.getAssignmentUrl()), "application/pdf");
                         startActivity(intent);
